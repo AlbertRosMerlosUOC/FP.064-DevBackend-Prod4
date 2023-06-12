@@ -145,10 +145,17 @@ Route::get('/tipos-actos', function () {
 
 Route::get('/calendario', function () {
     $user = Auth::user();
-    $id_persona = $user->id; // Obtén el ID de la persona asociado al usuario autenticado
-    $idTipoUsuario = $user->Id_tipo_usuario;
-    $nombreUsuario = $user->Nombre . ' ' . $user->Apellido1 . ' ' . $user->Apellido2;
-    $actos = ActoController::getListaCalendario($id_persona);
+    if ($user) {
+        $id_persona = $user->id; // Obtén el ID de la persona asociado al usuario autenticado
+        $idTipoUsuario = $user->Id_tipo_usuario;
+        $nombreUsuario = $user->Nombre . ' ' . $user->Apellido1 . ' ' . $user->Apellido2;
+        $actos = ActoController::getListaCalendario($id_persona);
+    } else {
+        $id_persona = null;
+        $idTipoUsuario = null;
+        $nombreUsuario = "Invitado";
+        $actos = ActoController::getListaCalendarioInvitado();
+    }
     return view('calendario', compact('actos','id_persona', 'idTipoUsuario', 'nombreUsuario'));
 })->name('calendario');
 
