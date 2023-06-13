@@ -16,8 +16,7 @@
             return view('actos', compact('actos'));
         }
 
-        public function getById($id)
-        {
+        public function getById($id) {
             $acto = Acto::find($id);
             return view('actos.show', compact('acto'));
         }
@@ -57,8 +56,7 @@
             return $actos;
         }
 
-        public function edit(Request $request)
-        {
+        public function edit(Request $request) {
             $user = Auth::user();
             $id_persona = $user->id;
             $idTipoUsuario = $user->Id_tipo_usuario;
@@ -87,18 +85,17 @@
         }
 
      
-        public function insert(Request $request)
-        {
+        public function insert(Request $request) {
             // Validar los datos del formulario
-        $validatedData = $request->validate([
-            'Fecha' => 'required',
-            'Hora' => 'required',
-            'Titulo' => 'required',
-            'Descripcion_corta' => 'required',
-            'Descripcion_larga' => 'required',
-            'Num_asistentes' => 'required',
-            'Id_tipo_acto' => 'required',
-        ]);
+             $validatedData = $request->validate([
+                'Fecha' => 'required',
+                'Hora' => 'required',
+                'Titulo' => 'required',
+                'Descripcion_corta' => 'required',
+                'Descripcion_larga' => 'required',
+                'Num_asistentes' => 'required',
+                'Id_tipo_acto' => 'required',
+            ]);
 
             $acto = new Acto();
             $acto->Fecha = $request->input('Fecha');
@@ -114,8 +111,7 @@
             return redirect()->route('actos');
         }
 
-        public function update(Request $request)
-        {
+        public function update(Request $request) {
             // Validar los datos del formulario
             $validatedData = $request->validate([
                 'Fecha' => 'required',
@@ -167,7 +163,6 @@
         //     }
         //     return view('index', compact('user'));
         // }
-
         
         // Incribir actos
         public function inscripcionActo(Request $request)
@@ -209,6 +204,20 @@
                                 JOIN tipo_acto ta ON ta.Id_tipo_acto = ac.Id_tipo_acto
                                WHERE ac.Fecha > CURDATE() OR (ac.Fecha = CURDATE() AND ac.Hora > CURTIME())
                             ORDER BY ac.Fecha DESC , ac.Hora DESC");
+            return $actos;
+        }
+
+        // Área de ponentes
+        public function getActosPonente($id) {
+            $actos = DB::select("
+                                 SELECT ac.Id_acto, ac.Fecha, TIME_FORMAT(ac.Hora, '%H:%i') Hora, ac.Titulo, ac.Descripcion_corta, ac.Descripcion_larga, ac.Num_asistentes, ac.Id_tipo_acto, 
+                                        (SELECT COUNT(*) FROM personas_actos pa WHERE pa.Id_acto = ac.Id_acto AND pa.Ponente = 0) Num_inscritos,
+                                        ta.Descripcion Tipo_acto 
+                                FROM actos ac 
+                                JOIN tipo_acto ta ON ta.Id_tipo_acto = ac.Id_tipo_acto
+                                JOIN personas_actos pa ON ac.Id_acto = pa.Id_acto AND pa.Id_persona = $id AND pa.Ponente = 1
+                                WHERE ac.Fecha < CURDATE()
+                            ORDER BY ac.Fecha DESC, ac.Hora DESC");
             return $actos;
         }
 

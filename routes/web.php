@@ -113,7 +113,7 @@ Route::get('/actos-nuevo', function () {
 
 Route::post('/actos', [ActoController::class, 'insert'])->name('actos.insert');
 
-Route::post('/actos-nuevo',  [ActoController::class, 'insert'])->name('actos.insert');
+Route::post('/actos-nuevo', [ActoController::class, 'insert'])->name('actos.insert');
 
 // Ruta para eliminar un acto
 Route::delete('/actos/{id}', [ActoController::class, 'delete'])->name('actos.delete');
@@ -163,6 +163,25 @@ Route::post('/actos/inscribir', [ActoController::class, 'inscripcionActo'])->nam
 
 // WebService REST
 Route::get('/rest/acto/getAll', [ActoController::class, 'restGetActos']);
+
+// Área de ponentes
+Route::get('/ponentes', function () {
+    $user = Auth::user();
+    $id_persona = $user->id; // Obtén el ID de la persona asociado al usuario autenticado
+    $idTipoUsuario = $user->Id_tipo_usuario;
+    $nombreUsuario = $user->Nombre . ' ' . $user->Apellido1 . ' ' . $user->Apellido2;
+    $actos = ActoController::getActosPonente($id_persona);
+    return view('ponentes', compact('actos','id_persona', 'idTipoUsuario', 'nombreUsuario'));
+})->name('ponentes');
+
+Route::get('/ponentes-editar', function () {
+    $user = Auth::user();
+    $id_persona = $user->id; // Obtén el ID de la persona asociado al usuario autenticado
+    $idTipoUsuario = $user->Id_tipo_usuario;
+    $nombreUsuario = $user->Nombre . ' ' . $user->Apellido1 . ' ' . $user->Apellido2;
+    $actos = ActoController::getActosPonente($id_persona);
+    return view('ponentes', compact('actos','id_persona', 'idTipoUsuario', 'nombreUsuario'));
+})->name('ponentes-editar');
 
 
 

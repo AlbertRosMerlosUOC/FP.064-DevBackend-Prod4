@@ -51,6 +51,15 @@ use App\Models\User;
                     </div>
                 </div>
             @endif
+            <div class="col d-flex align-items-start tarjeta-menu" onclick="window.location.href='ponentes'">
+                <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em">
+                    <use xlink:href="#upload"/>
+                </svg>
+                <div>
+                    <h4 class="fw-bold mb-0">Área de ponentes</h4>
+                    <p>Gestión de archivos para los actos en los que has sido ponente.</p>
+                </div>
+            </div>
             <div class="col d-flex align-items-start tarjeta-menu" onclick="window.location.href='calendario'">
                 <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em">
                     <use xlink:href="#calendar3"/>
