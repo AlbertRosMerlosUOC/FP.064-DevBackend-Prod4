@@ -126,13 +126,13 @@
             </div>
             <div class="modal-body">
                 <p id="inscribirActoText"></p>
-                <form action="/php/actosFormAccion.php" method="POST">
+                <form action="{{ $nombreUsuario !== 'Invitado' ? route('acto.inscribir') : route('login') }}" method="POST" style="width: 450px;">
                     @csrf
                     <input type="hidden" id="Id_acto" name="Id_acto" value=""/>
                     <input type="hidden" id="Id_persona" name="Id_persona" value="{{ $id_persona }}"/>
                     <input type="hidden" id="Tipo_accion" name="Tipo_accion" value=""/>
                     <button type="button" class="btn btn-primary" id="cancelInscribir">Cancelar</button>
-                    <button type="button" class="btn" id="inscribirActoButton" name="inscribirActo" onclick="goAccion();"></button>
+                    <button type="submit" class="btn btn-success" id="inscribirActoButton" name="inscribirActo">Inscribirme</button>
                 </form>
             </div>
         </div>

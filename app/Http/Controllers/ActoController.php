@@ -6,6 +6,7 @@
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     use App\Models\Acto;
+    use App\Models\User;
     use App\Models\PersonaActo;
     use App\Models\TipoActo;
 
@@ -166,6 +167,37 @@
         //     }
         //     return view('index', compact('user'));
         // }
+
+        
+        // Incribir actos
+        public function inscripcionActo(Request $request)
+        {
+            $actoId = $request->input('Id_acto');
+            $userId = $request->input('Id_persona');
+            $tipoAccion = $request->input('Tipo_accion');
+    
+            $acto = Acto::find($actoId);
+            if (!$acto) {
+                // Manejar el caso si el acto no existe
+                return redirect()->back()->with('error', 'El acto no existe.');
+            }
+    
+            $user = User::find($userId);
+            if (!$user) {
+                // Manejar el caso si el usuario no existe
+                return redirect()->back()->with('error', 'El usuario no existe.');
+            }
+    
+            if ($tipoAccion == 'A') {
+                // Realizar la inscripción del usuario al acto
+                $acto->usuarios()->attach($userId);
+                return redirect()->back()->with('success', 'Te has inscrito al acto correctamente.');
+            } else {
+                // Realizar la desinscripción del usuario del acto
+                $acto->usuarios()->detach($userId);
+                return redirect()->back()->with('success', 'Te has desinscrito del acto correctamente.');
+            }
+        }
 
     }
     

@@ -19,6 +19,7 @@
                 <?php else: ?>
                     <p class="mt-3">¿Ya estás registrado? Inicia sesión <a href="/login">aquí</a></p>
                     <p class="mt-3">¿No tienes usuario? Regístrate <a href="/signup">aquí</a></p>
+                    <p class="mt-3">¿Quieres ver nuestro calendario? Pincha <a href="/calendario">aquí</a></p>
                 <?php endif; ?>
             </div>
         </main>

@@ -3,6 +3,8 @@
     namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
+    use App\Models\User;
+
 
     class Acto extends Model {
 
@@ -23,6 +25,12 @@
         public function tipoActo()
         {
             return $this->belongsTo(TipoActo::class, 'Id_tipo_acto');
+        }
+
+        public function usuarios()
+        {
+            return $this->belongsToMany(User::class, 'personas_actos', 'Id_acto', 'Id_persona')
+                        ->withPivot('Ponente');
         }
     }
 

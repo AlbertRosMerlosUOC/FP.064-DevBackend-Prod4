@@ -162,4 +162,9 @@ Route::get('/calendario', function () {
 
 
 
+Route::post('/actos/inscribir', [ActoController::class, 'inscripcionActo'])->name('acto.inscribir');
+
+
+
+
 
