@@ -12,6 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        // WebService REST
+        // Albert: Añadimos esta ruta para que no esté protegida por el token csrf
+        '/rest/acto/getAll'
     ];
 }

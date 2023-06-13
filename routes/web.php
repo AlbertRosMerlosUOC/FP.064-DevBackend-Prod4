@@ -159,12 +159,10 @@ Route::get('/calendario', function () {
     return view('calendario', compact('actos','id_persona', 'idTipoUsuario', 'nombreUsuario'));
 })->name('calendario');
 
-
-
-
 Route::post('/actos/inscribir', [ActoController::class, 'inscripcionActo'])->name('acto.inscribir');
 
-
+// WebService REST
+Route::get('/rest/acto/getAll', [ActoController::class, 'restGetActos']);
 
 
 
