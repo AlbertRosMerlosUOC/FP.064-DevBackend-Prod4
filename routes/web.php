@@ -183,5 +183,10 @@ Route::get('/ponentes-editar', function () {
     return view('ponentes', compact('actos','id_persona', 'idTipoUsuario', 'nombreUsuario'));
 })->name('ponentes-editar');
 
+// Ruta para informacion de un acto
+Route::get('/actos/informacion/{Id_acto}', [ActoController::class, 'getActoInfo'])->name('acto.informacion');
+
+
+
 
 

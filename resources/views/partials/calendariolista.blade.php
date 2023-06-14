@@ -64,7 +64,6 @@
                                                         <td width=\"110px\">". $reg->Num_inscritos . "</td>
                                                         <td width=\"*\" class=\"tdBtnAcciones\">
                                                             <button class=\"btn btn-info\" onclick='getInfo(" . $reg->Id_acto . ")'><i class=\"fa fa-info-circle fa-1\"></i></button>";
-
                                             if ($reg->Rol == '0' || $reg->Rol == '1') {
                                                 if ($reg->Rol == '0') {
                                                     $fila .= "&nbsp;<button class=\"btn btn-danger\" onclick='inscribir(\"B\", " . $reg->Id_acto . ")'><i class=\"fa fa-user-times fa-1\"></i></button>";
@@ -111,7 +110,7 @@
                 <h5 class="modal-title">Información del acto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="informacion-body">
+            <div class="modal-body" id="informacion-acto">
             </div>
         </div>
     </div>
@@ -126,6 +125,9 @@
             </div>
             <div class="modal-body">
                 <p id="inscribirActoText"></p>
+                @if($nombreUsuario === 'Invitado')
+                    <p>Debes iniciar sesion para inscribirte al acto, piche <a href="/login">aquí</a> para ir al inicio de sesion</p>
+                @endif
                 <form action="{{ $nombreUsuario !== 'Invitado' ? route('acto.inscribir') : route('login') }}" method="POST" style="width: 450px;">
                     @csrf
                     <input type="hidden" id="Id_acto" name="Id_acto" value=""/>
@@ -242,12 +244,19 @@
             xhr.send();
         }
 
-        function getInfo(id) {
+        function getInfo(Id_acto) {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
                     if (xhr.status == 200) {
-                        document.getElementById("informacion-body").innerHTML = xhr.responseText;
+                        console.log(xhr.responseText);
+                        var acto = JSON.parse(xhr.responseText)[0];
+                        var informacionHTML = "<h3>" + acto.Titulo + "</h3>";
+                        informacionHTML += "<p>" + acto.Descripcion_larga + "</p>";
+                        informacionHTML += "<p><b>Fecha: </b>" + acto.Fecha + "</p>";
+                        informacionHTML += "<p><b>Hora: </b>" + acto.Hora + "</p>";
+                        informacionHTML += "<p><b>Numero de asistentes: </b>" + acto.Num_asistentes + "</p>";
+                        document.getElementById("informacion-acto").innerHTML = informacionHTML;
                         const modal = new bootstrap.Modal(document.getElementById('modalInformacion'), {
                             keyboard: false
                         });
@@ -257,9 +266,11 @@
                     }
                 }
             };
-            xhr.open("GET", "/php/calendarioInformacion.php?id=" + id, true);
+            xhr.open("GET", "/actos/informacion/" + Id_acto, true);
             xhr.send();
         }
+
+
 
         function getInscritos(id) {
             var xhr = new XMLHttpRequest();
