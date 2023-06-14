@@ -41,8 +41,7 @@
                                             <td width="110px">{{ $reg->Num_asistentes }}</td>
                                             <td width="110px">{{ $reg->Num_inscritos }}</td>
                                             <td width="*" align="center" style="padding-right: 2px !important;">
-                                                    <input name="Id_acto" type="hidden" value="{{ $reg->Id_acto }}">
-                                                    <button class="btn btn-primary" type="submit" style="width: 40px !important; font-size: 13px !important;"><i class="fa fa-edit fa-lg"></i></button>
+                                                <button class="btn btn-primary" style="width: 40px !important; font-size: 13px !important;" onclick="redirectToActo('{{ $reg->Id_acto }}')"><i class="fa fa-edit fa-lg"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -59,6 +58,13 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    function redirectToActo(idActo) {
+        // Redireccionar a la página del acto con el ID correspondiente
+        window.location.href = 'http://localhost:8000/ponentes/' + idActo;
+    }
+</script>
 
 <div class="modal fade" id="modalActoDelete" tabindex="1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

@@ -215,23 +215,27 @@
                                         ta.Descripcion Tipo_acto 
                                 FROM actos ac 
                                 JOIN tipo_acto ta ON ta.Id_tipo_acto = ac.Id_tipo_acto
-                                JOIN personas_actos pa ON ac.Id_acto = pa.Id_acto AND pa.Id_persona = $id AND pa.Ponente = 1
-                                WHERE ac.Fecha < CURDATE()
+                                JOIN personas_actos pa ON ac.Id_acto = pa.Id_acto AND pa.Ponente = 1
+                               WHERE ac.Fecha < CURDATE()
+                                 AND (pa.Id_persona = $id OR $id IN (SELECT us.id FROM users us WHERE us.Id_tipo_usuario = 1))
                             ORDER BY ac.Fecha DESC, ac.Hora DESC");
             return $actos;
         }
 
-
-
-        //informacion de un acto
+        // Información de un acto
         public function getActoInfo($Id_acto) {
             $acto = DB::select("
-                SELECT ac.Id_acto, ac.Fecha, TIME_FORMAT(ac.Hora, '%H:%i') Hora, ac.Titulo, ac.Descripcion_corta, ac.Descripcion_larga, ac.Num_asistentes, ac.Id_tipo_acto, 
-                    (SELECT COUNT(*) FROM personas_actos pa WHERE pa.Id_acto = ac.Id_acto AND pa.Ponente = 0) Num_inscritos,
-                    ta.Descripcion Tipo_acto 
-                FROM actos ac 
-                JOIN tipo_acto ta ON ta.Id_tipo_acto = ac.Id_tipo_acto
-                WHERE ac.Id_acto = $Id_acto");
+                                SELECT ac.Id_acto, ac.Fecha, TIME_FORMAT(ac.Hora, '%H:%i') Hora, ac.Titulo, ac.Descripcion_corta, ac.Descripcion_larga, ac.Num_asistentes, ac.Id_tipo_acto, 
+                                        (SELECT COUNT(*) FROM personas_actos pa WHERE pa.Id_acto = ac.Id_acto AND pa.Ponente = 0) Num_inscritos,
+                                        ta.Descripcion Tipo_acto 
+                                    FROM actos ac 
+                                    JOIN tipo_acto ta ON ta.Id_tipo_acto = ac.Id_tipo_acto
+                                WHERE ac.Id_acto = $Id_acto");
+            return $acto;
+        }
+
+        public function getByIdPonente($id) {
+            $acto = Acto::find($id);
             return $acto;
         }
     }

@@ -174,13 +174,14 @@ Route::get('/ponentes', function () {
     return view('ponentes', compact('actos','id_persona', 'idTipoUsuario', 'nombreUsuario'));
 })->name('ponentes');
 
-Route::get('/ponentes-editar', function () {
+Route::get('/ponentes/{Id_acto}', function ($Id_acto) {
     $user = Auth::user();
     $id_persona = $user->id; // Obtén el ID de la persona asociado al usuario autenticado
     $idTipoUsuario = $user->Id_tipo_usuario;
     $nombreUsuario = $user->Nombre . ' ' . $user->Apellido1 . ' ' . $user->Apellido2;
-    $actos = ActoController::getActosPonente($id_persona);
-    return view('ponentes', compact('actos','id_persona', 'idTipoUsuario', 'nombreUsuario'));
+    $acto = ActoController::getByIdPonente($Id_acto);
+    $tiposActos = TipoActo::all();
+    return view('ponentes-editar', compact('acto','id_persona', 'idTipoUsuario', 'nombreUsuario', 'tiposActos'));
 })->name('ponentes-editar');
 
 // Ruta para informacion de un acto

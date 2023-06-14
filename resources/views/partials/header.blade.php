@@ -22,6 +22,11 @@
                             </ul>
                         </li>
                     @endif
+                    @if ($idTipoUsuario == 1 || $idTipoUsuario == 3)
+                    <li class="nav-item">
+                        <a class="nav-link" href="ponentes">Área de ponentes</a>
+                    </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="calendario">Calendario de actos</a>
                     </li>
