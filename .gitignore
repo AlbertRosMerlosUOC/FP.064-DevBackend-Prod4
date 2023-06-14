@@ -1,4 +1,4 @@
-/vendor/
+# /vendor/
 node_modules/
 npm-debug.log
 yarn-error.log
@@ -22,5 +22,5 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 
-/mysql
-/mysql/*
+# /mysql
+/mysql/mysql.sock
